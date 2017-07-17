@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/demo.css" rel="stylesheet" media="screen"/>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+	<div class="container">
+	<form class="form-signin" action="/login" method="post">
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<label for="username" class="sr-only">User Name</label>
+		<input id="username" class="form-control" type="text" name="username" placeholder="'ox' or 'oz'" required="required" autofocus="autofocus"/>
+		<label for="password" class="sr-only">Password</label>
+		<input id="password" class="form-control" type="password" name="password" required="required"/>
+		<div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"/> Remember me
+          </label>
+        </div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		<div th:unless="${msg} == null">
+			<p style="color:red;font-weight:bold;" th:text="${msg}"></p>
+		</div>
+
+		
+		
+	</form>
+	
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>detail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/demo.css" rel="stylesheet" media="screen"/>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script th:inline="javascript" src="js/demo.js"></script>
+</head>
+<body>
+<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+	<div style="padding-left:40px;padding-right:40px">
+		<div>
+			<h2 th:text="'Welcome, ' + ${username} + '!'" ></h2>
+						<h2 th:text="'Welcome, ' + ${lala} + '!'" ></h2>
+			
+		</div>
+	</div>
+</body>
+</html>

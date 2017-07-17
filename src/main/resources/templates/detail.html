@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>detail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"/>
+    <link href="/css/demo.css" rel="stylesheet" media="screen"/>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script th:inline="javascript" src="/js/demo.js"></script>
+</head>
+<body>
+<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+	<div style="padding-left:40px;padding-right:40px">
+		<div>
+			<h2 th:text="'Welcome, ' + ${username} + '!'" ></h2>
+			<div th:unless="${msg} == null">
+				<h4 style="color:red;font-weight:bold;" th:text="${msg}"></h4>
+			</div>
+		</div>
+		<form>
+		<div>
+	  		<!-- Nav tabs -->
+	  		<ul class="nav nav-tabs" role="tablist">
+	    		<li role="presentation" class="active"><a href="#myrequest" aria-controls="myrequest" role="tab" data-toggle="tab">My Request</a></li>
+	    		<li role="presentation"><a href="#pendingrequest" aria-controls="pendingrequest" role="tab" data-toggle="tab">Request Pending action</a></li>
+	    		<li role="presentation"><a href="#acceptedrequest" aria-controls="acceptedrequest" role="tab" data-toggle="tab">My Accepted Request</a></li>
+	    		<li role="presentation"><a href="#newrequest" aria-controls="newrequest" role="tab" data-toggle="tab">New Request</a></li>
+	  		</ul>
+	  		<!-- Tab panes -->
+	  		<div class="tab-content">
+	    		<div role="tabpanel" class="tab-pane fade in active" id="myrequest">
+		    		<div class="panel panel-default">
+		    			<div class="panel-heading"></div>
+	  					<div class="panel-body">
+	    					<p>This table shows the list of my requests:</p>
+	  					</div>
+						<!--  <p style="font-size:200%;font-weight:bold;">List of My Request:</p>-->
+						<table class="table table-striped">
+		    				<tr>
+		      					<th>ports</th>
+		      					<th>ports owner</th>
+		      					<th>status</th>
+		    				</tr>
+							<tr th:each="req : ${myRequests}">
+								<td th:text="${req.port}"></td>
+								<td th:text="${req.portOwner}"></td>
+		      					<td th:text="${req.status}"></td>
+							</tr>
+						</table>
+					</div>
+		    	</div>
+		    	<div role="tabpanel" class="tab-pane fade" id="pendingrequest">
+		    		<div class="panel panel-default">
+		    			<div class="panel-heading"></div>
+	  					<div class="panel-body">
+	    					<p>This table shows the list of requests pending my action:</p>
+	  					</div>
+						<!--  <p style="font-size:200%;font-weight:bold;">List of My Request:</p>-->
+						<table class="table table-striped">
+		    				<tr>
+		      					<th>ports</th>		      					
+		      					<th>operator</th>
+		      					<th>status</th>
+		      					<th>action</th>
+		    				</tr>
+							<tr th:each="req : ${pendingRequests}">
+								<td th:text="${req.port}"></td>
+								<td th:text="${req.operator}"></td>
+		      					<td th:text="${req.status}"></td>
+		      					<td>
+		      						<button th:attr="id=${req.port},formaction='/acceptRequest/' + ${req.ID}" type="submit" class="btn btn-success"
+		 								formmethod="POST">Accept</button>
+		      						<button  th:attr="id=${req.port},formaction='/rejectRequest/' + ${req.ID}" type="submit" class="btn btn-danger"
+		      							formmethod="POST" >Reject</button>
+		      					</td>
+							</tr>
+						</table>
+					</div>
+		    	</div>
+		    	<div role="tabpanel" class="tab-pane fade" id="acceptedrequest">
+		    		<div class="panel panel-default">
+		    			<div class="panel-heading"></div>
+	  					<div class="panel-body">
+	    					<p>This table shows the list of requests that you've accepted:</p>
+	  					</div>
+						<!--  <p style="font-size:200%;font-weight:bold;">List of My Request:</p>-->
+						<table class="table table-striped">
+		    				<tr>
+		      					<th>ports</th>
+		      					<th>operator</th>
+		      					<th>status</th>
+		      					<th>action</th>
+		    				</tr>
+							<tr th:each="req : ${acceptedRequests}">
+								<td th:text="${req.port}"></td>
+								<td th:text="${req.operator}"></td>
+		      					<td th:text="${req.status}"></td>
+		      					<td>
+		      						<button th:attr="id=${req.port},formaction='/deleteRequest/' + ${req.ID}" type="submit" class="btn btn-warning" formmethod="POST">Delete</button>
+		      					</td>
+							</tr>
+						</table>
+					</div>
+		    	</div>
+		    	<div role="tabpanel" class="tab-pane fade" id="newrequest">
+		    		<div>
+						<p style="font-size:200%;font-weight:bold;">Specify the port you want to connect to</p>
+					</div>
+					<div class="row">
+					  <div class="col-lg-6">
+					    <div class="input-group">
+					      <input id="port" type="text" class="form-control" placeholder="Port Number" name="port"/>
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button" onclick="search();">Search Port</button>
+					      </span>
+					      
+					      <span class="input-group-btn">
+					        <button id="send" class="btn btn-default" type="submit" disabled="disabled"
+					        	formaction="/newRequest" formmethod="POST">Send Request</button>
+					      </span>
+					    </div><!-- /input-group -->
+					  </div><!-- /.col-lg-6 -->
+					</div><!-- /.row -->
+					<br/>
+					<div>
+						Owner: 
+						<p id="owner" style="font-weight:bold;"></p>
+						<input type="hidden" id="email" name="email"/>
+						<input type="hidden" id="id" name="ownerid"/>
+					</div>
+		    	</div>
+	  		</div>
+	
+		</div>
+		</form>
+	</div>
+</body>
+</html>
